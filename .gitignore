@@ -6,3 +6,6 @@ __pycache__/
 
 # Ignorar las variables de entorno
 .env
+
+# git rm --cached .env
+# This will delete .env from your repo, but leave it on your local machine (and now your .gitignore will cause it to be ignored).
