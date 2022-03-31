@@ -1,4 +1,5 @@
 # Rutas de autenticación(auth)
+import json
 import validators
 from flask import Blueprint, jsonify, request
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -6,10 +7,12 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from src.constants.http_status_codes import (HTTP_200_OK, HTTP_201_CREATED,
                                              HTTP_400_BAD_REQUEST,
                                              HTTP_401_UNAUTHORIZED,
-                                             HTTP_409_CONFLICT)
+                                             HTTP_409_CONFLICT,
+                                             HTTP_404_NOT_FOUND)
 from src.database import User, db
-from flask_jwt_extended import create_access_token, create_refresh_token
-
+from flask_jwt_extended import (create_access_token, 
+                                create_refresh_token, 
+                                jwt_required, get_jwt_identity)
 
 auth = Blueprint('auth', __name__,
                 url_prefix='/api/v1/auth')
@@ -23,23 +26,31 @@ def register():
 
     if len(password) < 6:
         return jsonify({
-            'error': 'The password must be at least 6 characters'}), HTTP_400_BAD_REQUEST
+            'error': 'The password must be at least 6 characters'
+            }), HTTP_400_BAD_REQUEST
     
     if len(password) < 3:
         return jsonify({
-            'error': 'The username and password must be at least 3 characters'}), HTTP_400_BAD_REQUEST
+            'error': 'The username and password must be at least 3 characters'
+            }), HTTP_400_BAD_REQUEST
 
     if not username.isalnum() or " " in username:
-        return jsonify({'error': "Username must be alphanumeric, also don't have spaces"}), HTTP_400_BAD_REQUEST
+        return jsonify({
+            'error': "Username must be alphanumeric, also don't have spaces"
+            }), HTTP_400_BAD_REQUEST
 
     if not validators.email(email):
         return jsonify({'error': "Email is not valid"}), HTTP_400_BAD_REQUEST
     
     if User.query.filter_by(email=email).first() is not None:
-        return jsonify({'error': "The email address is already in use"}), HTTP_409_CONFLICT
+        return jsonify({
+            'error': "The email address is already in use"
+            }), HTTP_409_CONFLICT
 
     if User.query.filter_by(username=username).first() is not None:
-        return jsonify({'error': "The username is already in use"}), HTTP_409_CONFLICT
+        return jsonify({
+            'error': "The username is already in use"
+            }), HTTP_409_CONFLICT
 
     """ Create a new user """  
     user = User(username=username, password=pwd_hash, email=email)
@@ -55,7 +66,7 @@ def register():
 
 
 @auth.post('/login')
-def login():
+def login(): 
     email = request.json.get('email', '')
     password = request.json.get('password', '')
 
@@ -67,21 +78,46 @@ def login():
 
         if is_pass_correct:
 
-            refresh_tk = create_refresh_token(identity=user.id)
             access_tk = create_access_token(identity=user.id)
+            refresh_tk = create_refresh_token(identity=user.id)
             
             return jsonify({
-                'access_tk': access_tk,
-                'refresh_tk': refresh_tk,
                 'username': user.username,
-                'email': user.email       
-                })
+                'email': user.email,       
+                'access_tk': access_tk,
+                'refresh_tk': refresh_tk
+                }), HTTP_200_OK
 
-    return jsonify({
-        'error': 'Wrong credentials'
-    })            
+        return jsonify({
+            'error': 'Wrong password'
+        }), HTTP_401_UNAUTHORIZED  
+
+    else:
+        return jsonify({"msg": "Bad email or password"}), HTTP_401_UNAUTHORIZED
 
  
 @auth.get('/me')
+@jwt_required()
 def me():
-    return {'username': 'me'}
+    # Access the identity of the current user with get_jwt_identity
+    user_id = get_jwt_identity()
+    user = User.query.filter_by(id=user_id).first()
+
+    return jsonify({
+        'username': user.username,
+        'email': user.email
+        }), HTTP_200_OK
+
+
+
+@auth.post('/token/refresh')
+@jwt_required(refresh=True)
+def refresh_users_token():
+    # Access the identity of the current user with get_jwt_identity
+    identity = get_jwt_identity()
+    access_tk = create_access_token(identity=identity)
+
+    return jsonify({
+        'access_tk': access_tk
+    }), HTTP_200_OK
+    
