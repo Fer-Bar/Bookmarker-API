@@ -1,0 +1,34 @@
+POST a new bookmark
+---
+tags:
+  - Bookmarks
+
+parameters:
+  - name: body
+    description: The body should contain the bookmark credentials
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - "url"
+        - "body"
+      properties:
+        url:
+          type: "url"
+          example: "https://www.example.com"
+        body:
+          type: "body"
+          example: "This is my website"
+
+responses:
+  201:
+    description: Bookmark created
+
+  400:
+    description: Enter a valid url
+
+  409:
+    description: URL already exists
+    
+  

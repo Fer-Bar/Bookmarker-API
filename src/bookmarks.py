@@ -8,12 +8,17 @@ from src.constants.http_status_codes import (HTTP_200_OK, HTTP_201_CREATED,
                                              HTTP_404_NOT_FOUND,
                                              HTTP_409_CONFLICT)
 from src.database import Bookmark, db
+from flasgger import swag_from
+
 
 bookmarks = Blueprint('bookmarks', __name__,
                     url_prefix='/api/v1/bookmarks')
 
 @bookmarks.route('/', methods=['GET', 'POST'])
 @jwt_required()
+# @swag_from('./docs/bookmarks/new_bookmark.yaml', methods=['GET'])
+@swag_from('./docs/bookmarks/new_bookmark.yaml', methods=['POST'])
+
 def handle_bookmarks():
     current_user = get_jwt_identity()
     if request.method == 'POST':
@@ -89,6 +94,7 @@ def handle_bookmarks():
 
 @bookmarks.get('/<int:id>')
 @jwt_required()
+
 def get_bookmark(id):
     current_user = get_jwt_identity()
 
@@ -156,3 +162,24 @@ def delete_bookmark(id):
     db.session.commit()
 
     return jsonify({}), HTTP_204_NO_CONTENT
+
+@bookmarks.get('/stats')
+@jwt_required()
+@swag_from('./docs/bookmarks/stats.yaml')
+def get_stats():
+    current_user = get_jwt_identity()
+
+    items = Bookmark.query.filter_by(user_id=current_user).all()
+
+    data = []
+
+    for item in items:
+        new_item = {
+            'id': item.id,
+            'url': item.url,
+            'short_url': item.short_url,
+            'visits': item.visits
+        }
+        data.append(new_item)
+
+    return jsonify({'data': data}), HTTP_200_OK
