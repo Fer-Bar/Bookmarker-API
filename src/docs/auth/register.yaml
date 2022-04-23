@@ -30,3 +30,6 @@ responses:
 
   400:
     description: Fails to Register due to bad request data
+
+  409:
+    description: Username or email already exist
