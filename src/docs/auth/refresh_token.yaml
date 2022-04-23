@@ -1,0 +1,18 @@
+Refresh your access token
+---
+tags:
+  - Authentication
+parameters:
+  - in: header
+    name: Authorization
+    required: true
+
+security:
+  - Bearer: []
+
+responses:
+  200:
+    description: Create a new access token successfully
+
+  400:
+    description: Fails to login due to bad request data

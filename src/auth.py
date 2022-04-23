@@ -96,11 +96,12 @@ def login():
         }), HTTP_401_UNAUTHORIZED  
 
     else:
-        return jsonify({"msg": "Bad email or password"}), HTTP_401_UNAUTHORIZED
+        return jsonify({"msg": "User/Email not found"}), HTTP_404_NOT_FOUND
 
  
 @auth.get('/me')
 @jwt_required()
+@swag_from('./docs/auth/profile.yaml')
 def me():
     # Access the identity of the current user with get_jwt_identity
     user_id = get_jwt_identity()
@@ -115,6 +116,7 @@ def me():
 
 @auth.get('/token/refresh')
 @jwt_required(refresh=True)
+@swag_from('./docs/auth/refresh_token.yaml')
 def refresh_users_token():
     # Access the identity of the current user with get_jwt_identity
     identity = get_jwt_identity()

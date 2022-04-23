@@ -3,10 +3,8 @@ GET stats about bookmarks
 tags:
   - Bookmarks
 
-parameters:
-  - in: header
-    name: Authorization
-    required: true
+security:
+  - Bearer: []
 
 responses:
   200:

@@ -1,4 +1,4 @@
-POST a new bookmark
+Create a new bookmark
 ---
 tags:
   - Bookmarks
@@ -18,15 +18,18 @@ parameters:
           type: "url"
           example: "https://www.example.com"
         body:
-          type: "body"
+          type: "string"
           example: "This is my website"
 
+security:
+  - Bearer: []
+  
 responses:
   201:
     description: Bookmark created
 
   400:
-    description: Enter a valid url
+    description: User supplies incorrect credentials
 
   409:
     description: URL already exists

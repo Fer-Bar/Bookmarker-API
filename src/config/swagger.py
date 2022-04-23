@@ -5,24 +5,24 @@ template = {
         "description": "API for bookmarks",
         "contact": {
             "responsibleOrganization": "",
-            "responsibleDeveloper": "",
+            "responsibleDeveloper": "Fernando Barrientos",
             "email": "linofernado2703@gmail.com",
             "url": "https://fer-bar.github.io/Portfolio/",
         },
-        "termsOfService": "www.twitter.com/deve",
+        "termsOfService": "",
         "version": "1.0"
     },
     "basePath": "/api/v1",  # base bash for blueprint registration
     "schemes": [
-        "http",
-        "https"
+        "http", # Use this schema in development
+        "https" # Use this schema in production
     ],
     "securityDefinitions": {
         "Bearer": {
             "type": "apiKey",
             "name": "Authorization",
             "in": "header",
-            "description": "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\""
+            "description": "JWT Authorization header using the Bearer scheme. Example: \'Authorization: Bearer {token}\'"
         }
     },
 }

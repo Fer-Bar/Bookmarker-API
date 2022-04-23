@@ -4,7 +4,7 @@ tags:
   - Authentication
 parameters:
   - name: body
-    description: The body should contain the user Registration data
+    description: The body should contain the user registration data
     in: body
     required: true
     schema:
@@ -16,10 +16,10 @@ parameters:
       properties:
         email:
           type: "email"
-          example: "crycetruly@gmail.com"
+          example: "email@gmail.com"
         username:
           type: "username"
-          example: "usernamex"
+          example: "username"
         password:
           type: "string"
           format: password

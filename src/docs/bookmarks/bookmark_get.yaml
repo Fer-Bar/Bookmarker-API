@@ -1,0 +1,27 @@
+Get bookmark by ID
+---
+tags:
+  - Bookmarks
+
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema:
+      type: integer
+      minimum: 1
+    description: The bookmark ID
+
+
+security:
+  - Bearer: []
+
+responses:
+  200:
+    description: Successful Operation
+  400:
+    description: Invalid data supplied
+  401:
+    description: Fails to get item due to authentication error
+  404:
+    description: Bookmark not found

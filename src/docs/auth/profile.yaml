@@ -1,0 +1,14 @@
+Bring the user profile data
+---
+tags:
+  - Authentication
+
+security:
+  - Bearer: []
+
+responses:
+  200:
+    description: Successful Operation
+
+  400:
+    description: Fails to login due to bad request data

@@ -24,7 +24,7 @@ def create_app(test_config=None):
                 "JWT_SECRET_KEY"),
             SWAGGER={
                 'title': 'Bookmarks API',
-                'uiversion': 3
+                'uiversion': 3,
             }
         )
     else:
@@ -44,7 +44,7 @@ def create_app(test_config=None):
     app.register_blueprint(bookmarks)
     
 
-    @app.get('/<short_url>')
+    @app.get('/api/v1/<short_url>')
     @swag_from('./docs/short_url.yaml')
     def redirect_to_url(short_url):
         bookmark = Bookmark.query.filter_by(short_url=short_url).first_or_404()

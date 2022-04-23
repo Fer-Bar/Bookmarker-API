@@ -1,4 +1,4 @@
-Redirect to a short url
+Redirect to a short url (Use it in a web browser)
 ---
 tags:
   - Bookmarks
@@ -7,9 +7,11 @@ parameters:
     name: short_url
     required: true
 
+
 responses:
   302:
     description: Redirects to the original link
 
   404:
     description: Record was not found
+

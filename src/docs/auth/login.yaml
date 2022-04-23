@@ -15,11 +15,14 @@ parameters:
       properties:
         email:
           type: "email"
+          description: The email address of the user
           example: "user@gmail.com"
         password:
           type: "string"
           format: password
+          description: The password associated
           example: "********"
+
 responses:
   200:
     description: When a user successfully logs in
@@ -29,3 +32,6 @@ responses:
 
   401:
     description: A user supplies incorrect credentials
+  
+  404:
+    description: User not found

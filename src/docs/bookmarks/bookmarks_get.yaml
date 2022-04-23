@@ -1,0 +1,29 @@
+Get bookmark collection
+---
+tags:
+  - Bookmarks
+
+parameters:
+  - in: query
+    name: page
+    schema:
+      type: integer
+    description: The page number of our consult
+    default: 1
+  - in: query
+    name: per_page
+    schema:
+      type: integer
+    description: The number of items for page
+    default: 5
+
+security:
+  - Bearer: []
+
+responses:
+  200:
+    description: Successful Response
+  401:
+    description: Fails to get items due to authentication error
+    
+  
