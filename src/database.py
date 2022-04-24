@@ -15,19 +15,20 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, onupdate=datetime.now())
     bookmarks = db.relationship('Bookmark', backref='user')
     
-    def __repr__(self) -> str:
+    def __repr__(self):
         return f'User>>>{self.username}'
 
 class Bookmark(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.Text, nullable=True)
     url = db.Column(db.Text, nullable=False)
-    short_url = db.Column(db.String(3), nullable=True)
+    short_url = db.Column(db.String(3))
     visits = db.Column(db.Integer, default=0)
     created_at = db.Column(db.DateTime, default=datetime.now())
     updated_at = db.Column(db.DateTime, onupdate=datetime.now())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    @property
     def generate_short_character(self):
         characters = string.digits + string.ascii_letters
         picked_chars = ''.join(random.choices(characters, k=3))
@@ -39,7 +40,9 @@ class Bookmark(db.Model):
         else:
             return picked_chars #Devolvemos una combinacion de caracteres como short url
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs) # Traemos todas las cosas de la clase db.Model, heredanlos a nuestra clase actual
-        self.short_url = self.generate_short_character()
+    # def __init__(self, **kwargs):
+    #     super().__init__(**kwargs) # Traemos todas las cosas de la clase db.Model, heredanlos a nuestra clase actual
+    #     self.short_url = self.generate_short_character()
 
+    def __repr__(self):
+        return f'Bookmark>>>{self.url}'
