@@ -14,8 +14,10 @@ template = {
     },
     "basePath": "/api/v1",  # base bash for blueprint registration
     "schemes": [
-        "http", # Use this schema in development
-        "https" # Use this schema in production
+        # Use this schema in development
+        #"http", 
+        # Use this schema in development
+        "https" 
     ],
     "securityDefinitions": {
         "Bearer": {

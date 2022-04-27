@@ -46,7 +46,7 @@ def handle_bookmarks():
             'id': bookmark.id,
             'body': bookmark.body,
             'url': bookmark.url,
-            'short_url': bookmark.generate_short_character,
+            'short_url': bookmark.short_url,
             'visits': bookmark.visits,
             'created_at': bookmark.created_at,
             'updated_at': bookmark.updated_at
@@ -70,7 +70,7 @@ def handle_bookmarks():
                 'id': bookmark.id,
                 'body': bookmark.body,
                 'url': bookmark.url,
-                'short_url': bookmark.generate_short_character,
+                'short_url': bookmark.short_url,
                 'visits': bookmark.visits,
                 'created_at': bookmark.created_at,
                 'updated_at': bookmark.updated_at
@@ -108,7 +108,7 @@ def get_bookmark(id):
         'id': bookmark.id,
         'body': bookmark.body,
         'url': bookmark.url,
-        'short_url': bookmark.generate_short_character,
+        'short_url': bookmark.short_url,
         'visits': bookmark.visits,
         'created_at': bookmark.created_at,
         'updated_at': bookmark.updated_at
@@ -140,7 +140,7 @@ def edit_bookmark(id):
         'id': bookmark.id,
         'body': bookmark.body,
         'url': bookmark.url,
-        'short_url': bookmark.generate_short_character,
+        'short_url': bookmark.short_url,
         'visits': bookmark.visits,
         'created_at': bookmark.created_at,
         'updated_at': bookmark.updated_at
@@ -178,7 +178,7 @@ def get_stats():
         new_item = {
             'id': item.id,
             'url': item.url,
-            'short_url': item.generate_short_character,
+            'short_url': item.short_url,
             'visits': item.visits
         }
         data.append(new_item)

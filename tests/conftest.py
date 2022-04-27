@@ -2,7 +2,7 @@ import pytest
 
 from src.database import User
 from src.database import Bookmark
-
+from src import create_app
 
 @pytest.fixture(scope='module')
 def new_user():
@@ -11,12 +11,9 @@ def new_user():
                 password='StrongPass')   
     return user
 
-@pytest.fixture(scope='module')
-def new_bookmark():
-    bookmark = Bookmark(
-                url='www.mysite.com',
-                body='This is my website',
-                visits= 0   
-            )
-    return bookmark
+
+@pytest.fixture(scope="function")
+def fixture_create_app():
+    """Instance of main flask app"""
+    return create_app()
 

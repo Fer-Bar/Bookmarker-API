@@ -1,4 +1,4 @@
-Refresh your access token
+Refresh your access token. Please add "Bearer" word before the token
 ---
 tags:
   - Authentication
@@ -6,9 +6,6 @@ parameters:
   - in: header
     name: Authorization
     required: true
-
-security:
-  - Bearer: []
 
 responses:
   200:

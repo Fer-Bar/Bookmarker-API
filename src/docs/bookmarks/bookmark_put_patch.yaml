@@ -4,13 +4,30 @@ tags:
   - Bookmarks
 
 parameters:
-  - in: path
-    name: id
+  - name: id
+    in: path
     required: true
     schema:
       type: integer
       minimum: 1
     description: The bookmark ID
+  - name: body
+    in: body
+    description: The body should contain the bookmark credentials
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - "url"
+        - "body"
+      properties:
+        url:
+          type: "url"
+          example: "https://www.example.com"
+        body:
+          type: "string"
+          example: "This is the update of my bookmark body"
 
 
 security:
