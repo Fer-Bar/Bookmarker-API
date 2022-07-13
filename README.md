@@ -16,7 +16,7 @@
     ```
     Go to the project directory.
     ```
-    cd url_shortener
+    cd bookmarksrestapi
     ```
     
 2. Create a virtual environment:
